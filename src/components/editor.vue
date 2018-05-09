@@ -32,6 +32,7 @@ import { quillEditor, Quill } from "vue-quill-editor";
 import { container,ImageExtend, QuillWatch } from "quill-image-extend-module";
 import { Base64 } from 'js-base64';
 import imglist from "./imglist";
+import config from "@/config/config"
 Quill.register("modules/ImageExtend", ImageExtend);
 export default {
   data() {
@@ -51,14 +52,14 @@ export default {
             name: "img", // 图片参数名
             size: 3, // 可选参数 图片大小，单位为M，1M = 1024kb
             action:
-              "http://ykm_file_web.s237.psd1412.com/upload/index?type=article&sid="+this.$ls.get("ws-token")+"&", // 服务器地址, 如果action为空，则采用base64插入图片
+              config.file_url+"/upload/index?type=article&sid="+this.$ls.get("ws-token")+"&", // 服务器地址, 如果action为空，则采用base64插入图片
             // response 为一个函数用来获取服务器返回的具体图片地址
             // 例如服务器返回{code: 200; data:{ url: 'baidu.com'}}
             // 则 return res.data.url
             response: res => {
               this.fileList.push(res.data.id);
               return (
-                "http://ykm_file_web.s237.psd1412.com/file/pic/" +res.data.id +"/1.jpg"
+                config.file_url+"/file/pic/" +res.data.id +"/1.jpg"
               );
             },
             headers: xhr => {
@@ -71,7 +72,11 @@ export default {
             success: () => {
               //追加文件集合
               this.$socket("file@/user/array_additional",{index:this.attachmentId,file_list:this.fileList},(res)=>{
-                console.log("追加成功",res)
+                if(!res.d){
+                  this.$Message.error("集合追加失败");
+                }
+              },error=>{
+                this.$Message.error(error.m);
               })
             }, // 可选参数  上传成功触发的事件
             change: (xhr, formData) => {
@@ -99,6 +104,8 @@ export default {
     save(){
       this.$socket("article@/user/save_article",{id:this.articleId,content:Base64.encode(this.content)},(res)=>{
         console.log("保存草稿:",res);
+      },error=>{
+        this.$Message.error(error.m);
       })
     },
     change() {

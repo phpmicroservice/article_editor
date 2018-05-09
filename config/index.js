@@ -3,7 +3,24 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
 
 const path = require('path')
+const fs = require('fs');
+function get_env(name, de = '') {
+  if (typeof process.env[name] != 'string') {
+      return de;
+  }
+  return process.env[name];
+}
 
+const APP_BASE_URL = get_env('APP_BASE_URL', 'ws://192.168.1.220:34504/');//api的请求地址
+const APP_SITE_URL = get_env('APP_SITE_URL', 'http://ykm_file_web.s237.psd1412.com');//附件的请求地址
+fs.open('./src/config/xitong.js', 'w+', function (err, fd) {
+  let buf2 = `export default {
+      zhuyao_url: "${APP_BASE_URL}",
+      file_url : "${APP_SITE_URL}",
+  };`;
+
+  fs.write(fd,buf2 ,0,buf2.length);
+});
 module.exports = {
   dev: {
 

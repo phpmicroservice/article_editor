@@ -30,7 +30,9 @@ function socket(mt, d,res = false, error = false,p) {
         p:p,
         sid:Vue.ls.get('ws-token')
     }
+    var time =null;
     var receive = function (d) {    
+        clearTimeout(time);
         var res_data = JSON.parse(d.data);
         if(p==res_data.p){
             //如果成功
@@ -46,14 +48,19 @@ function socket(mt, d,res = false, error = false,p) {
     try {
         data = JSON.stringify(data);
     } catch (err) {
-        console.log('必须是json格式');
         return false;
     }    
     if(wsServer.readyState==1){
         wsServer.send(data);
+        time=setTimeout(() => {
+            alert("请求超时")
+        },5000);  
     }else{
         wsServer.addEventListener('open', function () {
             wsServer.send(data);
+            time=setTimeout(() => {
+                alert("请求超时")
+            },5000);  
         });
     }
 }
