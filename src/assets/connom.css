@@ -1,0 +1,10 @@
+body{
+    margin:0;
+}
+button{
+    outline: 0;
+}
+ul {list-style:none;}
+img{
+    vertical-align: bottom;
+}
