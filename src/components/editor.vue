@@ -102,8 +102,12 @@ export default {
   methods: {
     //保存
     save(){
-      this.$socket("article@/user/save_article",{id:this.articleId,content:Base64.encode(this.content)},(res)=>{
-        console.log("保存草稿:",res);
+      this.$socket("article@/article/save_article",{id:this.articleId,content:Base64.encode(this.content)},(res)=>{
+        if(res.d){
+          this.$Message.success("保存成功!");
+        }else{
+          this.$Message.error("保存失败!");
+        }
       },error=>{
         this.$Message.error(error.m);
       })
