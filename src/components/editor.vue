@@ -112,9 +112,6 @@ export default {
         this.$Message.error(error.m);
       })
     },
-    change() {
-      
-    },
     imgsClick() {
       this.imglistShow = true;
     },
@@ -132,22 +129,81 @@ export default {
         // 调整光标到最后
         quill.setSelection(length + 1);
       }
+    },
+    // 编辑器准备完毕
+    ready(){
+      window.parent.postMessage({
+      'event':'ready',
+      'data':{
+        ready:true}
+      },"*");
+    },
+    //内容改变
+    change() {     
+      window.parent.postMessage({
+      'event':'changeContent',
+      'data':{
+        content:Base64.encode(this.content)}
+      },"*");
+      this.changeBox();
+    },
+    //高度改变
+    changeBox(){
+      let height=document.getElementById("app").offsetHeight;
+      window.parent.postMessage({
+      'event':'changeBox',
+      'data':{
+        height:height}
+      },"*");
+    },
+    // 获取草稿
+    getManuscript(type){
+      this.$socket("article@/user/manuscript",{type:type},(res)=>{
+          this.content = Base64.decode(res.d.content);
+          this.articleId=res.d.id;
+          this.attachmentId=res.d.attachment;
+          // 发送准备完毕事件
+          this.changeBox();
+      })
+    },
+    // 获取文章信息
+    getArticle(article_id,type){
+      this.$socket("article@/article/info_article",{id:article_id,type:type},(res)=>{
+          this.content = Base64.decode(res.d.content);
+          this.articleId=res.d.id;
+          this.attachmentId=res.d.attachment;
+          // 发送准备完毕事件
+          this.changeBox();
+      })
     }
   },
   components: {
     imglist
   },
-  created(){
-    this.$socket("user@/index/login",{username:'admin',password:'123456'},(res)=>{
-      this.$socket("article@/user/manuscript",{type:'demo'},(res)=>{
-          this.content = Base64.decode(res.d.content);
-          this.articleId=res.d.id;
-          this.attachmentId=res.d.attachment;
-      })
-    })    
-  },
   mounted(){
-    
+    // 发送准备完毕事件
+    this.ready()
+    window.addEventListener('message', (d) => {
+      let data = d.data;
+      switch (data.event) {   
+        // 检测到传值事件           
+        case 'byValues':
+        //存储sid
+        this.$ls.set('ws-token',data.data.sid,config.token_time);
+        if(data.data.article_id){
+          this.getArticle(data.data.article_id,data.data.type);
+        }else{
+          this.getManuscript(data.data.type);
+        }
+        break;
+        // 检测到type改变事件
+        case 'changeType':
+        // 如果已经有sid并且不是编辑
+        if(this.$ls.get('ws-token')&&!data.data.article_id){
+          this.getManuscript(data.data.type);
+        }
+      }
+    })   
   }
 };
 </script>
