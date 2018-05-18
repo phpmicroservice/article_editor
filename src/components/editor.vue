@@ -162,6 +162,12 @@ export default {
           this.content = Base64.decode(res.d.content);
           this.articleId=res.d.id;
           this.attachmentId=res.d.attachment;
+          // 发送获取草稿事件
+          window.parent.postMessage({
+          'event':'getManuscript',
+          'data':{
+            articleId:res.d.id}
+          },"*");
           // 发送准备完毕事件
           this.changeBox();
       })
@@ -196,12 +202,6 @@ export default {
           this.getManuscript(data.data.type);
         }
         break;
-        // 检测到type改变事件
-        case 'changeType':
-        // 如果已经有sid并且不是编辑
-        if(this.$ls.get('ws-token')&&!data.data.article_id){
-          this.getManuscript(data.data.type);
-        }
       }
     })   
   }
