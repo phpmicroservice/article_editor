@@ -52,7 +52,7 @@ export default {
             name: "img", // 图片参数名
             size: 3, // 可选参数 图片大小，单位为M，1M = 1024kb
             action:
-              config.file_url+"/upload/index?type=article&sid="+this.$ls.get("ws-token")+"&", // 服务器地址, 如果action为空，则采用base64插入图片
+            config.file_url+"/upload/index?type=article&sid="+this.$ls.get("ws-token")+"&", // 服务器地址, 如果action为空，则采用base64插入图片
             // response 为一个函数用来获取服务器返回的具体图片地址
             // 例如服务器返回{code: 200; data:{ url: 'baidu.com'}}
             // 则 return res.data.url
@@ -102,14 +102,26 @@ export default {
   methods: {
     //保存
     save(){
-      this.$socket("article@/article/save_article",{id:this.articleId,content:Base64.encode(this.content)},(res)=>{
+      let status=false;
+      this.$socket("article@/article/save_article",{id:this.articleId,content:Base64.encode(this.content)},(res)=>{       
         if(res.d){
           this.$Message.success("保存成功!");
+          status=true;
         }else{
           this.$Message.error("保存失败!");
         }
+        window.parent.postMessage({
+            'event':'save',
+            'data':{
+              status:status}
+        },"*");
       },error=>{
         this.$Message.error(error.m);
+        window.parent.postMessage({
+            'event':'save',
+            'data':{
+              status:status}
+        },"*");
       })
     },
     imgsClick() {
@@ -157,8 +169,8 @@ export default {
       },"*");
     },
     // 获取草稿
-    getManuscript(type){
-      this.$socket("article@/user/manuscript",{type:type},(res)=>{
+    getManuscript(type,sn){
+      this.$socket("article@/user/manuscript",{type:type,sn:sn},(res)=>{
           this.content = Base64.decode(res.d.content);
           this.articleId=res.d.id;
           this.attachmentId=res.d.attachment;
@@ -199,8 +211,12 @@ export default {
         if(data.data.article_id){
           this.getArticle(data.data.article_id,data.data.type);
         }else{
-          this.getManuscript(data.data.type);
+          this.getManuscript(data.data.type,data.data.sn);
         }
+        break;
+        // 检测到保存事件
+        case 'save':
+        this.save();
         break;
       }
     })   
