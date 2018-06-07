@@ -18,7 +18,7 @@ const env = require('../config/prod.env')
 //输出env内容
 const fs = require('fs');
 fs.open('./src/config/env.js', 'w', function(err, fd) {
-  const buf = 'export default "development";';
+  const buf = 'export default "production";';
   fs.write(fd, buf, 0, buf.length, 0, function(err, written, buffer) {});
 });
 
