@@ -13,6 +13,43 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 const env = require('../config/prod.env')
 
+
+
+//输出env内容
+const fs = require('fs');
+fs.open('./src/config/env.js', 'w', function(err, fd) {
+  const buf = 'export default "development";';
+  fs.write(fd, buf, 0, buf.length, 0, function(err, written, buffer) {});
+});
+
+
+
+
+
+// 环境变量的使用
+function get_env(name, de = '') {
+  if (typeof process.env[name] != 'string') {
+    return de;
+  }
+  return process.env[name];
+}
+
+
+
+const APP_FILE_URL = get_env('APP_FILE_URL', 'http://ykm.toplink.com'); //api的请求地址
+const APP_SCOKET_URL = get_env('APP_SCOKET_URL', 'ws://192.168.1.220:34504/'); //ws的地址
+
+fs.open('./src/config/xitong.js', 'w+', function (err, fd) {
+  let buf2 = `export default {
+        
+        scoket_url: "${APP_SCOKET_URL}",
+        file_url: "${APP_FILE_URL}"
+    };`;
+  fs.write(fd, buf2, 0, buf2.length);
+});
+
+
+
 const webpackConfig = merge(baseWebpackConfig, {
   module: {
     rules: utils.styleLoaders({
@@ -46,7 +83,7 @@ const webpackConfig = merge(baseWebpackConfig, {
       filename: utils.assetsPath('css/[name].[contenthash].css'),
       // Setting the following option to `false` will not extract CSS from codesplit chunks.
       // Their CSS will instead be inserted dynamically with style-loader when the codesplit chunk has been loaded by webpack.
-      // It's currently set to `true` because we are seeing that sourcemaps are included in the codesplit bundle as well when it's `false`, 
+      // It's currently set to `true` because we are seeing that sourcemaps are included in the codesplit bundle as well when it's `false`,
       // increasing file size: https://github.com/vuejs-templates/webpack/issues/1110
       allChunks: true,
     }),

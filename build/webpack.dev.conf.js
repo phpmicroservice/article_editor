@@ -13,6 +13,19 @@ const portfinder = require('portfinder')
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
 
+
+
+//输出env内容
+const fs = require('fs');
+fs.open('./src/config/env.js', 'w', function(err, fd) {
+  const buf = 'export default "production";';
+  fs.write(fd, buf, 0, buf.length, 0, function(err, written, buffer) {});
+});
+
+
+
+
+
 const devWebpackConfig = merge(baseWebpackConfig, {
   module: {
     rules: utils.styleLoaders({ sourceMap: config.dev.cssSourceMap, usePostCSS: true })
