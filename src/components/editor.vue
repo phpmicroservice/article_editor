@@ -216,7 +216,9 @@ export default {
         break;
         // 检测到保存事件
         case 'save':
-        this.save();
+        if(this.articleId){
+          this.save();
+        }
         break;
       }
     })   

@@ -15,7 +15,7 @@ const APP_BASE_URL = get_env('APP_BASE_URL', 'ws://192.168.1.220:34504/');//api�
 const APP_SITE_URL = get_env('APP_SITE_URL', 'http://ykm_file_web.s237.psd1412.com');//附件的请求地址
 fs.open('./src/config/xitong.js', 'w+', function (err, fd) {
   let buf2 = `export default {
-      zhuyao_url: "${APP_BASE_URL}",
+      scoket_url: "${APP_BASE_URL}",
       file_url : "${APP_SITE_URL}",
   };`;
 
