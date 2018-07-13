@@ -54,13 +54,13 @@ function socket(mt, d,res = false, error = false,p) {
         wsServer.send(data);
         time=setTimeout(() => {
             alert("请求超时")
-        },5000);  
+        },20000);  
     }else{
         wsServer.addEventListener('open', function () {
             wsServer.send(data);
             time=setTimeout(() => {
                 alert("请求超时")
-            },5000);  
+            },20000);  
         });
     }
 }
