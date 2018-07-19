@@ -156,7 +156,8 @@ export default {
       window.parent.postMessage({
       'event':'ready',
       'data':{
-        ready:true}
+        ready:true,
+        time:new Date()}
       },"*");
     },
     //内容改变
@@ -208,15 +209,9 @@ export default {
         this.errorInfo='错误:'+error.m;
         this.editorShow=false;
       })
-    }
-  },
-  components: {
-    imglist
-  },
-  mounted(){
-    // 发送准备完毕事件
-    this.ready()
-    window.addEventListener('message', (d) => {
+    },
+    //监听方法
+    message(d){
       let data = d.data;
       switch (data.event) {   
         // 检测到传值事件           
@@ -236,7 +231,18 @@ export default {
         }
         break;
       }
-    })   
+    }
+  },
+  components: {
+    imglist
+  },
+  mounted(){
+    // 发送准备完毕事件
+    this.ready()
+    window.addEventListener('message',this.message)   
+  },
+  beforeDestroy(){
+    window.removeEventListener('message',this.message);
   }
 };
 </script>
