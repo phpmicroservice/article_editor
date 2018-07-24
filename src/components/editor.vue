@@ -24,7 +24,7 @@
         </span>
       </div>
       <quill-editor v-model="content" ref="myQuillEditor" :options="editorOption" @change="change"></quill-editor>    
-      <imglist v-model="imglistShow" @insert="imgsInsert"></imglist>
+      <imglist v-model="imglistShow" @insert="imgsInsert" :attachmentId="attachmentId"></imglist>
     </div>  
     <div class="error" v-else>
       {{errorInfo}}
@@ -146,7 +146,7 @@ export default {
       for(let i of arr){
         // 获取光标所在位置
         length = quill.getSelection().index;
-        quill.insertEmbed(length, "image", i);
+        quill.insertEmbed(length, "image", config.file_url+"/file/pic/" +i+"/1.jpg");
         // 调整光标到最后
         quill.setSelection(length + 1);
       }
@@ -199,7 +199,7 @@ export default {
     },
     // 获取文章信息
     getArticle(article_id,type){
-      this.$socket("article@/article/info_article",{id:article_id,type:type},(res)=>{
+      this.$socket("article@/article/info_article",{id:article_id,type:type},(res)=>{     
         this.content = Base64.decode(res.d.content);
         this.articleId=res.d.id;
         this.attachmentId=res.d.attachment;
@@ -236,6 +236,9 @@ export default {
   components: {
     imglist
   },
+  created(){
+    
+  },
   mounted(){
     // 发送准备完毕事件
     this.ready()
@@ -249,7 +252,8 @@ export default {
 
 <style>
 .ql-container {
-  min-height: 300px !important;
+  /* min-height: 500px !important; */
+  height: 500px !important;
 }
 .error{
   font-size:20px;

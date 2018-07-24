@@ -1,4 +1,4 @@
 export default {
-        scoket_url: "ws://192.168.1.4:34504/",
-        file_url: "http://ykm_file_web.s220.psd1412.com/"
+        scoket_url: "ws://ws.tptest1.psd1412.com:34504/",
+        file_url: "http://ykmfileweb.tptest1.psd1412.com/"
     };
