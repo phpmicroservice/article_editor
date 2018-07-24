@@ -22,7 +22,7 @@
                     </ul>
                     <Page class="page" :current="my_p" :page-size="my_pageSize" :total="my_total_items" show-total show-elevator @on-change="my_pageChange"></Page>
                 </TabPane>
-                <TabPane name="article" label="文章附件">
+                <TabPane name="article" label="文章附件" style="height:300px;overflow:auto;">
                     <ul class="img-list">
                         <li v-for="(img,index) in articleImgs" class="img" :class="{'right-margin':(index+1)%5!=0}" @click="articleImgClick(img)">
                             <img :src="file_url+'/file/pic/' +img +'/1.jpg'">
