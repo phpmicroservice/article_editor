@@ -23,7 +23,7 @@
           </button>
         </span>
       </div>
-      <quill-editor v-model="content" ref="myQuillEditor" :options="editorOption" @change="change"></quill-editor>    
+      <quill-editor v-model="content" :style="editorStyle" ref="myQuillEditor" :options="editorOption" @change="change"></quill-editor>    
       <imglist v-model="imglistShow" @insert="imgsInsert" :attachmentId="attachmentId"></imglist>
     </div>  
     <div class="error" v-else>
@@ -42,6 +42,10 @@ Quill.register("modules/ImageExtend", ImageExtend);
 export default {
   data() {
     return {
+      // 编辑器样式
+      editorStyle:{
+        
+      },
       //编辑器显示隐藏
       editorShow:true,
       //错误信息
@@ -172,6 +176,9 @@ export default {
     //高度改变
     changeBox(){
       let height=document.getElementById("app").offsetHeight;
+      if(this.editorStyle.height){
+        height=parseInt(this.editorStyle.height)+66;
+      }
       window.parent.postMessage({
       'event':'changeBox',
       'data':{
@@ -218,6 +225,9 @@ export default {
         case 'byValues':
         //存储sid
         this.$ls.set('ws-token',data.data.sid,config.token_time);
+        if(data.data.editorHeight!='auto'){
+          this.editorStyle.height=data.data.editorHeight+' !important';
+        }
         if(data.data.article_id){
           this.getArticle(data.data.article_id,data.data.type);
         }else{
@@ -252,8 +262,7 @@ export default {
 
 <style>
 .ql-container {
-  /* min-height: 500px !important; */
-  height: 500px !important;
+  min-height: 500px !important;
 }
 .error{
   font-size:20px;

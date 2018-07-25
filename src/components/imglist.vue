@@ -72,7 +72,7 @@ export default {
             default:true
         },
         attachmentId:{
-            type:String,
+            type:[String,Number],
             default:''
         }
     },
