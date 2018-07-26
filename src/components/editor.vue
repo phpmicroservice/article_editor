@@ -46,6 +46,8 @@ export default {
       editorStyle:{
         
       },
+      //原样返回的标识
+      name:'',
       //编辑器显示隐藏
       editorShow:true,
       //错误信息
@@ -126,6 +128,7 @@ export default {
         window.parent.postMessage({
             'event':'save',
             'data':{
+              name:this.name,
               status:status}
         },"*");
       },error=>{
@@ -133,6 +136,7 @@ export default {
         window.parent.postMessage({
             'event':'save',
             'data':{
+              name:this.name,
               status:status}
         },"*");
       })
@@ -169,6 +173,7 @@ export default {
       window.parent.postMessage({
       'event':'changeContent',
       'data':{
+        name:this.name,
         content:Base64.encode(this.content)}
       },"*");
       this.changeBox();
@@ -182,6 +187,7 @@ export default {
       window.parent.postMessage({
       'event':'changeBox',
       'data':{
+        name:this.name,
         height:height}
       },"*");
     },
@@ -195,6 +201,7 @@ export default {
         window.parent.postMessage({
         'event':'getManuscript',
         'data':{
+          name:this.name,
           articleId:res.d.id}
         },"*");
         // 发送准备完毕事件
@@ -225,6 +232,7 @@ export default {
         case 'byValues':
         //存储sid
         this.$ls.set('ws-token',data.data.sid,config.token_time);
+        this.name=data.data.name;
         if(data.data.editorHeight!='auto'){
           this.editorStyle.height=data.data.editorHeight+' !important';
         }
@@ -236,6 +244,7 @@ export default {
         break;
         // 检测到保存事件
         case 'save':
+        this.name=data.data.name;
         if(this.articleId){
           this.save();
         }

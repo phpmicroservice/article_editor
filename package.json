@@ -16,7 +16,7 @@
     "lodash": "^4.17.10",
     "vue": "^2.5.2",
     "vue-ls": "^3.0.5",
-    "vue-quill-editor": "^3.0.6"
+    "vue-quill-editor": "3.0.6"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
