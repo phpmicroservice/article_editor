@@ -16,6 +16,11 @@ wsServer.onerror = function (e) { //错误情况触发
     //     error(e);
     // }     
 }
+setInterval(()=>{
+    socket('article@/demo/index',{},res=>{
+        
+    })
+},50000)
 function socket(mt, d,res = false, error = false,p) {
     //发送消息并绑定回调函数
     // 如果没有传p
