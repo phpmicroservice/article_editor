@@ -61,6 +61,7 @@ export default {
       //附件集合
       fileList:[],
       editorOption: {
+        placeholder: '请填写内容...',
         modules: {
           ImageExtend: {
             // 如果不作设置，即{}  则依然开启复制粘贴功能且以base64插入

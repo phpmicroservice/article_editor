@@ -36,8 +36,8 @@ function get_env(name, de = '') {
 
 
 
-const APP_FILE_URL = get_env('APP_FILE_URL', 'http://ykmfileweb.tptest1.psd1412.com/'); //api的请求地址
-const APP_SCOKET_URL = get_env('APP_SCOKET_URL', 'ws://ws.tptest1.psd1412.com:34504/'); //ws的地址
+const APP_FILE_URL = get_env('APP_FILE_URL','http://youzhu.toplink.wang:30001/');
+const APP_SCOKET_URL = get_env('APP_SCOKET_URL', 'ws://youzhu.toplink.wang:34504/');  //ws的地址
 
 fs.open('./src/config/xitong.js', 'w+', function (err, fd) {
   let buf2 = `export default {
