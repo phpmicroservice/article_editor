@@ -58,13 +58,11 @@ function socket(mt, d,res = false, error = false,p) {
     if(wsServer.readyState==1){
         wsServer.send(data);
         time=setTimeout(() => {
-            alert("请求超时")
         },20000);  
     }else{
         wsServer.addEventListener('open', function () {
             wsServer.send(data);
             time=setTimeout(() => {
-                alert("请求超时")
             },20000);  
         });
     }
