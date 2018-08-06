@@ -44,6 +44,13 @@ function socket(mt, d,res = false, error = false,p) {
             if(!JSON.parse(d.data).e){
                 res(JSON.parse(d.data));
             }else{
+                // 没有权限
+                if(JSON.parse(d.data).e==401||JSON.parse(d.data).e==403){
+                    window.parent.postMessage({
+                        'event':'403',
+                        'data':{}
+                    },"*");
+                }
                 error(JSON.parse(d.data));
             }
             wsServer.removeEventListener("message",receive);
