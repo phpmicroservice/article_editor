@@ -63,14 +63,14 @@ function socket(mt, d,res = false, error = false,p) {
         return false;
     }    
     if(wsServer.readyState==1){
-        wsServer.send(data);
         time=setTimeout(() => {
-        },20000);  
-    }else{
-        wsServer.addEventListener('open', function () {
             wsServer.send(data);
+        },10);  
+    }else{
+        wsServer.addEventListener('open', function () {            
             time=setTimeout(() => {
-            },20000);  
+                wsServer.send(data);
+            },10);  
         });
     }
 }

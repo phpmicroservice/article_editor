@@ -9,9 +9,9 @@
             <Tabs type="card" v-model="tabName" @on-click="tabClick">   
                 <TabPane name="imgLink" label="图片地址" style="height:300px;">
                     <Form>
-                        <FormItem prop="title" label="文章标题">
-                            <Input v-model="data.title" placeholder="请输入文章标题"></Input>
-                         </FormItem>
+                        <FormItem label="图片链接地址">
+                            <Input v-model="imgLink" placeholder="请输入图片链接地址"></Input>
+                        </FormItem>
                     </Form>
                 </TabPane>            
                 <TabPane name="my" label="我的图片" style="height:300px;">
@@ -61,6 +61,7 @@ export default {
     data(){
         return {
             tabName:'imgLink',
+            imgLink:'',
             file_url:config.file_url,
             model:this.value,
             my_p: 1,
@@ -143,16 +144,21 @@ export default {
             return key;
         },
         insert(){
-            let activeImgs=[];
-            for(let i of this.myActiveImgs){
-                activeImgs.push(i);
+            if(this.tabName=='imgLink'){
+                console.log("执行")
+                this.$emit("insertLink",this.imgLink);
+            }else{
+                let activeImgs=[];
+                for(let i of this.myActiveImgs){
+                    activeImgs.push(i);
+                }
+                for(let i of this.articleActiveImgs){
+                    activeImgs.push(i);
+                }
+                this.myActiveImgs=[];
+                this.articleActiveImgs=[];
+                this.$emit("insert",activeImgs);
             }
-            for(let i of this.articleActiveImgs){
-                activeImgs.push(i);
-            }
-            this.myActiveImgs=[];
-            this.articleActiveImgs=[];
-            this.$emit("insert",activeImgs);
         },
         myLoading(){
             this.spinShow=true;

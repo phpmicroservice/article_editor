@@ -36,7 +36,7 @@
         </span>
       </div>
       <quill-editor v-model="content" :style="editorStyle" ref="myQuillEditor" :options="editorOption" @change="change"></quill-editor>    
-      <imglist v-model="imglistShow" @insert="imgsInsert" :attachmentId="attachmentId"></imglist>
+      <imglist v-model="imglistShow" @insert="imgsInsert" @insertLink="insertLink" :attachmentId="attachmentId"></imglist>
     </div>  
     <div class="error" v-else>
       {{errorInfo}}
@@ -198,6 +198,14 @@ export default {
               status:status}
         },"*");
       })
+    },
+    insertLink(link){
+      this.imglistShow=false;
+      // 获取富文本组件实例
+      let quill = this.$refs.myQuillEditor.quill;
+      quill.focus();
+      quill.insertEmbed(length, "image", link);
+      quill.setSelection(length + 1);
     },
     imgsClick() {
       this.imglistShow = true;
