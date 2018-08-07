@@ -3,11 +3,18 @@
     <Modal v-model="model" width="660" class-name="imglist-modal" @on-visible-change="modelChange">
         <p slot="header" style="text-align:center">
             <Icon type="information-circled" color="green"></Icon>
-            <span>附件管理</span>
+            <span>图片管理</span>
         </p>
         <div>
-            <Tabs type="card" v-model="tabName" @on-click="tabClick">               
-                <TabPane name="my" label="我的附件" style="height:300px;">
+            <Tabs type="card" v-model="tabName" @on-click="tabClick">   
+                <TabPane name="imgLink" label="图片地址" style="height:300px;">
+                    <Form>
+                        <FormItem prop="title" label="文章标题">
+                            <Input v-model="data.title" placeholder="请输入文章标题"></Input>
+                         </FormItem>
+                    </Form>
+                </TabPane>            
+                <TabPane name="my" label="我的图片" style="height:300px;">
                     <ul class="img-list">
                         <li v-for="(img,index) in myImgs" class="img" :class="{'right-margin':(index+1)%5!=0}" @click="myImgClick(img.id)">
                             <img :src="file_url+'/file/pic/' +img.id +'/1.jpg'">
@@ -22,7 +29,7 @@
                     </ul>
                     <Page class="page" :current="my_p" :page-size="my_pageSize" :total="my_total_items" show-total show-elevator @on-change="my_pageChange"></Page>
                 </TabPane>
-                <TabPane name="article" label="文章附件" style="height:300px;overflow:auto;">
+                <TabPane name="article" label="文章图片" style="height:300px;overflow:auto;">
                     <ul class="img-list">
                         <li v-for="(img,index) in articleImgs" class="img" :class="{'right-margin':(index+1)%5!=0}" @click="articleImgClick(img)">
                             <img :src="file_url+'/file/pic/' +img +'/1.jpg'">
@@ -53,7 +60,7 @@ import config from "@/config/config"
 export default {
     data(){
         return {
-            tabName:'my',
+            tabName:'imgLink',
             file_url:config.file_url,
             model:this.value,
             my_p: 1,
@@ -249,6 +256,7 @@ export default {
         right:3px;
     }
     .page{
+        width:100%;
         position:absolute;
         bottom:10px;
     }

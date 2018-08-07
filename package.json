@@ -10,7 +10,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
-    "iview": "^2.13.1",
+    "iview": "^2.14.3",
     "js-base64": "^2.4.3",
     "jshashes": "^1.0.7",
     "lodash": "^4.17.10",
