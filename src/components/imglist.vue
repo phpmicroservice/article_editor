@@ -145,7 +145,6 @@ export default {
         },
         insert(){
             if(this.tabName=='imgLink'){
-                console.log("执行")
                 this.$emit("insertLink",this.imgLink);
             }else{
                 let activeImgs=[];
