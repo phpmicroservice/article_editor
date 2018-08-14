@@ -169,7 +169,7 @@ export default {
                 this.my_total_items = res.d.total_items;
             },error=>{
                 this.spinShow=false;
-                this.$Message.error(error.m);
+                this.$Message.error(this.$mt(error.m));
             })
         },
         my_pageChange(p){
@@ -183,7 +183,7 @@ export default {
                 this.articleImgs=res.d;
             },error=>{
                 this.spinShow=false;
-                this.$Message.error(error.m);
+                this.$Message.error(this.$mt(error.m));
             })
         }
     },

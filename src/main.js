@@ -6,6 +6,7 @@ import VueQuillEditor from 'vue-quill-editor'
 import iView from 'iview';
 import VueLocalStorage from 'vue-ls';
 import vendors from '@/vendors/index.js';
+import './language';
 import 'iview/dist/styles/iview.css';
 // require styles
 import 'quill/dist/quill.core.css'
@@ -18,6 +19,7 @@ Vue.use(VueLocalStorage, {
   namespace: 'vuejs__'
 });
 Vue.prototype.$socket = vendors.socket;
+Vue.prototype.$mt = vendors.mt;
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

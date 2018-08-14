@@ -220,7 +220,7 @@ export default {
                   this.$Message.error("集合追加失败");
                 }
               },error=>{
-                this.$Message.error(error.m);
+                this.$Message.error(this.$mt(error.m));
               })
             }, // 可选参数  上传成功触发的事件
             change: (xhr, formData) => {
@@ -296,7 +296,7 @@ export default {
               status:status}
         },"*");
       },error=>{
-        this.$Message.error(error.m);
+        this.$Message.error(this.$mt(error.m));
         window.parent.postMessage({
             'event':'save',
             'data':{
@@ -380,7 +380,7 @@ export default {
         // 发送准备完毕事件
         this.changeBox();
       },error=>{
-        this.errorInfo='错误:'+error.m;
+        this.errorInfo='错误:'+this.$mt(error.m);
         this.editorShow=false;
       })
     },
@@ -393,7 +393,7 @@ export default {
         // 发送准备完毕事件
         this.changeBox();
       },error=>{
-        this.errorInfo='错误:'+error.m;
+        this.errorInfo='错误:'+this.$mt(error.m);
         this.editorShow=false;
       })
     },
