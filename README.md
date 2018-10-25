@@ -1,8 +1,8 @@
 # vue-editor
 
-> A Vue.js project
+> 文章编辑器模块,vue构建
 
-## Build Setup
+## 启动方式
 
 ``` bash
 # install dependencies
